@@ -104,7 +104,6 @@ const CategoriesPage = () => {
 
   return (
     <Box sx={styles.container}>
-      {/* BUTTONS */}
       <Box sx={styles.btnBox}>
         <Button disableRipple onClick={() => navigate('/')} sx={styles.button}>
           Main page
@@ -122,10 +121,8 @@ const CategoriesPage = () => {
         </Button>
       </Box>
 
-      {/* TITLE */}
       <Typography sx={styles.title}>Categories</Typography>
 
-      {/* GRID */}
       <Box sx={styles.grid}>
         {visibleCategories.map((cat) => (
           <Box

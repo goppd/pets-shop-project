@@ -49,7 +49,7 @@ const Sale = () => {
 
         <Button
           component={Link}
-          to="/discountedItem"
+          to="/sales"
           variant="outlined"
           sx={{
             textTransform: 'none',

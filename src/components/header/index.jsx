@@ -38,8 +38,8 @@ const Header = () => {
         {[
           { to: '/', label: 'Main Page' },
           { to: '/categories', label: 'Categories' },
-          { to: '/productsList', label: 'All products' },
-          { to: '/discountedItem', label: 'All sales' },
+          { to: '/products', label: 'All products' },
+          { to: '/sales', label: 'All sales' },
         ].map((link) => (
           <Typography
             key={link.to}
