@@ -26,8 +26,7 @@ const Sale = () => {
   }, [])
 
   return (
-    <Box sx={{ padding: '80px 40px' }}>
-      {/* HEADER */}
+    <Box sx={{ px: '40px', pb: '80px' }}>
       <Box
         sx={{
           display: 'flex',
@@ -42,18 +41,36 @@ const Sale = () => {
             fontSize: '64px',
             fontWeight: 700,
             lineHeight: '110%',
-            color: 'rgb(40, 40, 41)',
+            color: 'rgba(40,40,40,1)',
           }}
         >
           Sale
         </Typography>
 
-        <Button component={Link} to="/discountedItem" variant="outlined">
+        <Button
+          component={Link}
+          to="/discountedItem"
+          variant="outlined"
+          sx={{
+            textTransform: 'none',
+            fontSize: '16px',
+            fontWeight: 500,
+            lineHeight: '126%',
+            borderRadius: '6px',
+            borderColor: 'rgba(221,221,221,1)',
+            color: 'rgba(139,139,139,1)',
+            px: '16px',
+            py: '8px',
+            '&:hover': {
+              borderColor: '#282829',
+              backgroundColor: 'rgba(40,40,41,0.05)',
+            },
+          }}
+        >
           All sales
         </Button>
       </Box>
 
-      {/* PRODUCTS */}
       <Box
         sx={{
           display: 'grid',
@@ -61,25 +78,111 @@ const Sale = () => {
           gap: '32px',
         }}
       >
-        {products.map((product) => (
-          <Card
-            key={product.id}
-            component={Link}
-            to={`/products/${product.id}`}
-            sx={{
-              textDecoration: 'none',
-              borderRadius: '12px',
-              overflow: 'hidden',
-            }}
-            elevation={0}
-          >
-            <CardMedia
-              component="img"
-              image={`http://localhost:3333/${product.image}`}
-              alt={product.title}
-            />
-          </Card>
-        ))}
+        {products.map((product) => {
+          const discountPercent = Math.round(
+            ((product.price - product.discont_price) / product.price) * 100,
+          )
+
+          return (
+            <Card
+              key={product.id}
+              component={Link}
+              to={`/products/${product.id}`}
+              elevation={0}
+              sx={{
+                position: 'relative',
+                borderRadius: '12px',
+                border: '1px solid rgba(221,221,221,1)',
+                overflow: 'hidden',
+                textDecoration: 'none',
+                color: 'inherit',
+                transition: 'transform 0.2s ease',
+                '&:hover': {
+                  transform: 'translateY(-4px)',
+                },
+              }}
+            >
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '16px',
+                  right: '16px',
+                  backgroundColor: 'rgba(13,80,255,1)',
+                  color: '#fff',
+                  fontSize: '20px',
+                  fontWeight: 600,
+                  lineHeight: '130%',
+                  px: '8px',
+                  py: '4px',
+                  borderRadius: '6px',
+                  zIndex: 2,
+                }}
+              >
+                -{discountPercent}%
+              </Box>
+
+              <Box
+                sx={{
+                  width: '100%',
+                  aspectRatio: '316 / 284',
+                }}
+              >
+                <Box
+                  component="img"
+                  src={`http://localhost:3333/${product.image}`}
+                  alt={product.title}
+                  sx={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
+                  }}
+                />
+              </Box>
+
+              <Box sx={{ px: '32px', pb: '32px' }}>
+                <Typography
+                  sx={{
+                    fontSize: '20px',
+                    fontWeight: 500,
+                    lineHeight: '130%',
+                    color: 'rgba(40,40,40,1)',
+                    mb: '16px',
+                  }}
+                >
+                  {product.title}
+                </Typography>
+
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Typography
+                    sx={{
+                      fontSize: '40px',
+                      fontWeight: 600,
+                      lineHeight: '110%',
+                      color: 'rgba(40,40,40,1)',
+                    }}
+                  >
+                    ${product.discont_price}
+                  </Typography>
+
+                  <Typography
+                    sx={{
+                      fontSize: '20px',
+                      fontWeight: 500,
+                      lineHeight: '130%',
+                      color: 'rgba(139,139,139,1)',
+                      textDecoration: 'line-through',
+                      ml: '16px',
+                      pt: '16px',
+                    }}
+                  >
+                    ${product.price}
+                  </Typography>
+                </Box>
+              </Box>
+            </Card>
+          )
+        })}
       </Box>
     </Box>
   )

@@ -1,52 +1,84 @@
 import React from 'react'
-import styles from './styles.module.css'
 import { NavLink } from 'react-router-dom'
+import { Box, Typography } from '@mui/material'
 import logo from '../../assets/icons/logo.svg'
 import basket from '../../assets/icons/basket.empty.svg'
 
 const Header = () => {
   return (
-    <header className={styles.header}>
-      <img className={styles.logo} src={logo} alt="logo" />
-      <nav className={styles.nav}>
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            isActive ? `${styles.link} ${styles.active}` : styles.link
-          }
-        >
-          Main Page
-        </NavLink>
+    <Box
+      component="header"
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        px: '40px',
+        py: '30px',
+      }}
+    >
+      <Box
+        component="img"
+        src={logo}
+        alt="logo"
+        sx={{
+          width: '70px',
+          height: '70px',
+          cursor: 'pointer',
+        }}
+      />
 
-        <NavLink
-          to="/categories"
-          className={({ isActive }) =>
-            isActive ? `${styles.link} ${styles.active}` : styles.link
-          }
-        >
-          Categories
-        </NavLink>
+      <Box
+        component="nav"
+        sx={{
+          display: 'flex',
+          gap: '32px',
+          alignItems: 'center',
+        }}
+      >
+        {[
+          { to: '/', label: 'Main Page' },
+          { to: '/categories', label: 'Categories' },
+          { to: '/productsList', label: 'All products' },
+          { to: '/discountedItem', label: 'All sales' },
+        ].map((link) => (
+          <Typography
+            key={link.to}
+            component={NavLink}
+            to={link.to}
+            sx={{
+              fontSize: '20px',
+              fontWeight: 500,
+              fontFamily: 'Roboto, sans-serif',
+              textDecoration: 'none',
+              color: 'rgba(40,40,40,1)',
+              transition: 'color 0.2s ease',
 
-        <NavLink
-          to="/productsList"
-          className={({ isActive }) =>
-            isActive ? `${styles.link} ${styles.active}` : styles.link
-          }
-        >
-          All products
-        </NavLink>
+              '&:hover': {
+                color: 'rgba(40,40,40,0.5)',
+              },
 
-        <NavLink
-          to="/discountedItem"
-          className={({ isActive }) =>
-            isActive ? `${styles.link} ${styles.active}` : styles.link
-          }
-        >
-          All sales
-        </NavLink>
-      </nav>
-      <img className={styles.basket} src={basket} alt="basket" />
-    </header>
+              '&.active': {
+                color: 'rgba(40,40,40,0.5)',
+                borderBottom: '2px solid rgba(40,40,40,0.5)',
+              },
+            }}
+          >
+            {link.label}
+          </Typography>
+        ))}
+      </Box>
+
+      <Box
+        component="img"
+        src={basket}
+        alt="basket"
+        sx={{
+          width: '48px',
+          height: '48px',
+          cursor: 'pointer',
+        }}
+      />
+    </Box>
   )
 }
 

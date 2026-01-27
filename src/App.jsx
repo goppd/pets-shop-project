@@ -6,7 +6,7 @@ import Categories from './components/categories'
 import Discount from './components/discount'
 import Sale from './components/sale'
 import Footer from './components/footer'
-
+import ProductListPage from './pages/productListPage'
 import CategoriesPage from './pages/categoriesPage'
 import DiscountedItemPage from './pages/discountedItemPage'
 import ProductItemPage from './pages/productItemPage'
@@ -19,7 +19,6 @@ function App() {
       <Header />
 
       <Routes>
-        {/* ГЛАВНАЯ СТРАНИЦА */}
         <Route
           path="/"
           element={
@@ -32,8 +31,8 @@ function App() {
           }
         />
 
-        {/* ОТДЕЛЬНЫЕ СТРАНИЦЫ */}
         <Route path="/categories" element={<CategoriesPage />} />
+        <Route path="/categories/:id" element={<ProductListPage />} />
         <Route path="/discountedItem" element={<DiscountedItemPage />} />
         <Route path="/products/:id" element={<ProductItemPage />} />
       </Routes>

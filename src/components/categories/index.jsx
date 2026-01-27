@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-import {
-  Box,
-  Typography,
-  Grid,
-  Card,
-  Button
-} from '@mui/material'
+import { Box, Typography, Grid, Card, Button } from '@mui/material'
 
 const Categories = () => {
   const [categories, setCategories] = useState([])
@@ -30,7 +24,6 @@ const Categories = () => {
 
   return (
     <Box sx={{ padding: '80px 40px 106px 40px' }}>
-      {/* HEADER ROW */}
       <Box
         sx={{
           display: 'flex',
@@ -75,7 +68,6 @@ const Categories = () => {
         </Button>
       </Box>
 
-      {/* GRID */}
       <Grid container spacing={4}>
         {categories.map((category) => (
           <Grid key={category.id} size={{ xs: 12, sm: 6, md: 3 }}>
@@ -98,7 +90,6 @@ const Categories = () => {
                 },
               }}
             >
-              {/* IMAGE */}
               <Box
                 sx={{
                   width: '100%',
@@ -118,7 +109,6 @@ const Categories = () => {
                 />
               </Box>
 
-              {/* TITLE */}
               <Box
                 sx={{
                   flexGrow: 1,

@@ -34,6 +34,8 @@ const Discount = () => {
         borderRadius: '12px',
         padding: '32px 32px 0',
         marginBottom: '80px',
+        marginLeft: '40px',
+        marginRight: '5px',
       }}
     >
       <Typography
@@ -52,9 +54,9 @@ const Discount = () => {
       <Box
         sx={{
           display: 'flex',
-          // justifyContent: 'space-between',
+
           alignItems: 'stretch',
-          flexWrap: 'wrap', // 👈 для адаптива
+          flexWrap: 'wrap',
         }}
       >
         <Box
@@ -115,7 +117,7 @@ const Discount = () => {
                       color: 'rgba(255, 255, 255, 1)',
                     },
                     '& input::placeholder': {
-                      color: 'rgba(255, 255, 255, 1)',                     
+                      color: 'rgba(255, 255, 255, 1)',
                     },
                   },
                 },
@@ -145,7 +147,6 @@ const Discount = () => {
         </Box>
       </Box>
     </Box>
-   
   )
 }
 export default Discount

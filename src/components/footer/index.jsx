@@ -130,7 +130,6 @@ const Footer = () => {
       </Box>
 
       <Box sx={{ display: 'flex', gap: '32px' }}>
-        {/* Address */}
         <Box
           sx={{
             flex: '0 0 62%',
