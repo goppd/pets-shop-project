@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { Box, Typography, Button, Select, MenuItem } from '@mui/material'
 
@@ -220,6 +220,7 @@ const styles = {
 
 const ProductListPage = () => {
   const { id } = useParams()
+  const navigate = useNavigate()
 
   const [products, setProducts] = useState([])
   const [category, setCategory] = useState(null)
@@ -333,6 +334,7 @@ const ProductListPage = () => {
               <Box
                 key={product.id}
                 sx={{ ...styles.card, ...styles.cardHover }}
+                onClick={() => navigate(`/products/${product.id}`)}
               >
                 <Box sx={styles.imageWrapper}>
                   <Box
@@ -347,13 +349,14 @@ const ProductListPage = () => {
                       ...styles.addBtn,
                       ...(isAdded ? styles.addedBtn : {}),
                     }}
-                    onClick={() =>
+                    onClick={(e) => {
+                      e.stopPropagation()
                       setAddedIds((prev) =>
                         prev.includes(product.id)
                           ? prev.filter((id) => id !== product.id)
                           : [...prev, product.id],
                       )
-                    }
+                    }}
                   >
                     {isAdded ? 'Added' : 'Add to cart'}
                   </Button>
