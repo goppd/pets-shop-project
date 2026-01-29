@@ -1,7 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Box, Typography, Button, Select, MenuItem } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { add, remove } from '../../redux/slices/cartSlice'
 
@@ -20,7 +19,11 @@ const styles = {
     '&:hover .addBtn': { opacity: 1 },
   },
   imageWrapper: { position: 'relative' },
-  image: { width: '100%', height: '320px', objectFit: 'cover' },
+  image: {
+    width: '100%',
+    height: '320px',
+    objectFit: 'cover',
+  },
   addBtn: {
     position: 'absolute',
     left: '16px',
@@ -36,13 +39,12 @@ const styles = {
     backgroundColor: '#fff',
     color: '#282828',
     border: '1px solid #282828',
+    opacity: 1,
   },
 }
 
 const AllProductsPage = () => {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
-
   const cartItems = useSelector((state) => state.cart.items)
   const addedIds = cartItems.map((item) => item.id)
 
@@ -60,7 +62,16 @@ const AllProductsPage = () => {
     if (exists) {
       dispatch(remove(product.id))
     } else {
-      dispatch(add({ ...product, count: 1 }))
+      dispatch(
+        add({
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          discont_price: product.discont_price,
+          image: product.image,
+          count: 1,
+        }),
+      )
     }
   }
 

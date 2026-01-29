@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { Box, Typography, Button, Select, MenuItem } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
+import { add, remove } from '../../redux/slices/cartSlice'
 
 import checkbox_normal from '../../assets/icons/checkbox_normal.svg'
 import checkbox_active from '../../assets/icons/checkbox_active.svg'
@@ -32,14 +34,10 @@ const styles = {
   priceInput: {
     width: '112px',
     height: '36px',
-    px: '16px',
+    padding: '0 16px',
     fontSize: '16px',
-    fontWeight: 500,
-    lineHeight: '126%',
-    color: 'rgba(139,139,139,1)',
     borderRadius: '6px',
     border: '1px solid rgba(221,221,221,1)',
-    outline: 'none',
   },
   discountFilter: {
     display: 'flex',
@@ -55,25 +53,16 @@ const styles = {
     fontSize: '20px',
     fontWeight: 600,
     lineHeight: '130%',
-    color: 'rgba(40,40,40,1)',
   },
-  select: {
-    height: '36px',
-    fontSize: '16px',
-    fontWeight: 500,
-    lineHeight: '126%',
-    borderRadius: '6px',
-  },
+  select: { height: '36px', borderRadius: '6px' },
   resetBtn: {
     height: '44px',
-    px: '16px',
+    padding: '0 16px',
     borderRadius: '6px',
     border: '1px solid rgba(221,221,221,1)',
     backgroundColor: '#fff',
     fontSize: '16px',
-    fontWeight: 500,
     textTransform: 'none',
-    '&:hover': { backgroundColor: 'rgba(40,40,41,0.05)' },
   },
   grid: {
     display: 'grid',
@@ -83,86 +72,63 @@ const styles = {
   card: {
     borderRadius: '12px',
     border: '1px solid rgba(221,221,221,1)',
-    backgroundColor: '#fff',
     overflow: 'hidden',
-    transition: 'transform 0.2s ease',
     cursor: 'pointer',
+    transition: 'transform 0.2s',
     '&:hover': { transform: 'translateY(-4px)' },
   },
   imageWrapper: {
     position: 'relative',
-    width: '100%',
     aspectRatio: '316 / 350',
-    overflow: 'hidden',
   },
   image: {
     width: '100%',
     height: '100%',
     objectFit: 'cover',
-    display: 'block',
   },
   addBtn: {
     position: 'absolute',
-    left: '16px',
-    right: '16px',
-    bottom: '16px',
-    height: '58px',
-    borderRadius: '6px',
-    px: '32px',
+    left: 16,
+    right: 16,
+    bottom: 16,
+    height: 58,
     fontSize: '20px',
     fontWeight: 600,
-    lineHeight: '130%',
-    textTransform: 'none',
+    borderRadius: '6px',
     backgroundColor: 'rgba(13,80,255,1)',
     color: '#fff',
     opacity: 0,
-    transition: 'opacity 0.2s ease, background-color 0.2s ease',
     '&:hover': { backgroundColor: 'rgba(40,40,40,1)' },
-  },
-  cardHover: {
-    '&:hover .addBtn': { opacity: 1 },
   },
   addedBtn: {
     backgroundColor: '#fff',
     color: 'rgba(40,40,40,1)',
     border: '1px solid rgba(40,40,40,1)',
-    '&:hover': { backgroundColor: '#fff' },
+  },
+  cardHover: {
+    '&:hover .addBtn': { opacity: 1 },
   },
   name: {
     fontSize: '20px',
-    fontWeight: 500,
-    lineHeight: '130%',
     textAlign: 'center',
-    color: 'rgba(40,40,40,1)',
-    px: '32px',
-    pb: '16px',
+    padding: '16px 32px',
   },
   prices: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'flex-end',
     gap: '16px',
-    px: '32px',
-    pb: '16px',
+    paddingBottom: '16px',
   },
-  price: {
-    fontSize: '40px',
-    fontWeight: 600,
-    lineHeight: '110%',
-    color: 'rgba(40,40,40,1)',
-  },
+  price: { fontSize: '40px', fontWeight: 600 },
   oldPrice: {
     fontSize: '20px',
-    fontWeight: 500,
-    lineHeight: '130%',
     color: 'rgba(139,139,139,1)',
     textDecoration: 'line-through',
   },
   emptyState: {
-    mt: '80px',
+    marginTop: '80px',
     textAlign: 'center',
     fontSize: '32px',
-    fontWeight: 600,
     color: 'rgba(139,139,139,1)',
   },
 }
@@ -170,6 +136,10 @@ const styles = {
 const ProductListPage = () => {
   const { id } = useParams()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const cartItems = useSelector((state) => state.cart.items)
+  const addedIds = cartItems.map((item) => item.id)
 
   const [products, setProducts] = useState([])
   const [category, setCategory] = useState(null)
@@ -177,53 +147,30 @@ const ProductListPage = () => {
   const [priceFrom, setPriceFrom] = useState('')
   const [priceTo, setPriceTo] = useState('')
   const [sortType, setSortType] = useState('default')
-  const [addedIds, setAddedIds] = useState([])
 
   useEffect(() => {
     axios.get(`http://localhost:3333/categories/${id}`).then((res) => {
       setCategory(res.data.category)
       setProducts(res.data.data)
     })
-
-    const cart = JSON.parse(localStorage.getItem('cart')) || []
-    setAddedIds(cart.map((item) => item.id))
   }, [id])
 
   const toggleAdd = (productId) => {
-    const cart = JSON.parse(localStorage.getItem('cart')) || []
-    const exists = cart.find((item) => item.id === productId)
-
-    let newCart
-
-    if (exists) {
-      newCart = cart.filter((item) => item.id !== productId)
-    } else {
-      newCart = [...cart, { id: productId, count: 1 }]
-    }
-
-    localStorage.setItem('cart', JSON.stringify(newCart))
-    setAddedIds(newCart.map((item) => item.id))
-  }
-
-  const resetFilters = () => {
-    setOnlyDiscounted(false)
-    setPriceFrom('')
-    setPriceTo('')
-    setSortType('default')
+    const exists = cartItems.find((item) => item.id === productId)
+    exists
+      ? dispatch(remove(productId))
+      : dispatch(add({ id: productId, count: 1 }))
   }
 
   const visibleProducts = useMemo(() => {
     let result = [...products]
 
     if (onlyDiscounted) result = result.filter((p) => p.discont_price)
-    if (priceFrom !== '')
-      result = result.filter(
-        (p) => (p.discont_price ?? p.price) >= Number(priceFrom),
-      )
-    if (priceTo !== '')
-      result = result.filter(
-        (p) => (p.discont_price ?? p.price) <= Number(priceTo),
-      )
+    if (priceFrom)
+      result = result.filter((p) => (p.discont_price ?? p.price) >= +priceFrom)
+    if (priceTo)
+      result = result.filter((p) => (p.discont_price ?? p.price) <= +priceTo)
+
     if (sortType === 'low-high')
       result.sort(
         (a, b) => (a.discont_price ?? a.price) - (b.discont_price ?? b.price),
@@ -284,7 +231,15 @@ const ProductListPage = () => {
           </Select>
         </Box>
 
-        <Button sx={styles.resetBtn} onClick={resetFilters}>
+        <Button
+          sx={styles.resetBtn}
+          onClick={() => {
+            setOnlyDiscounted(false)
+            setPriceFrom('')
+            setPriceTo('')
+            setSortType('default')
+          }}
+        >
           Reset filters
         </Button>
       </Box>
@@ -308,7 +263,6 @@ const ProductListPage = () => {
                     src={`http://localhost:3333${product.image}`}
                     sx={styles.image}
                   />
-
                   <Button
                     className="addBtn"
                     sx={{

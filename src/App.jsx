@@ -15,6 +15,7 @@ import ProductItemPage from './pages/productItemPage'
 import AllProductsPage from './pages/allProductsPage'
 import DiscountedItemsPage from './pages/discountedItemsPage'
 import CartPage from './pages/cartPage'
+import NotFoundPage from './pages/notFoundPage'
 
 function App() {
   return (
@@ -35,11 +36,11 @@ function App() {
 
         <Route path="/categories" element={<CategoriesPage />} />
         <Route path="/categories/:id" element={<ProductListPage />} />
-
         <Route path="/products" element={<AllProductsPage />} />
         <Route path="/sales" element={<DiscountedItemsPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/products/:id" element={<ProductItemPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
       <Footer />

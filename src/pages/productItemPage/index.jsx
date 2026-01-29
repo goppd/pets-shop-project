@@ -12,6 +12,30 @@ import Image3 from '../../assets/images/image3.svg'
 
 const BASE_URL = 'http://localhost:3333'
 
+/* ================= STYLES ================= */
+const counterBtn = {
+  width: '58px',
+  height: '58px',
+  minWidth: '58px',
+  border: '1px solid rgba(221,221,221,1)',
+  borderRadius: 0,
+  fontSize: '20px',
+  color: 'rgba(40,40,40,1)',
+}
+
+const counterValue = {
+  width: '58px',
+  height: '58px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderTop: '1px solid rgba(221,221,221,1)',
+  borderBottom: '1px solid rgba(221,221,221,1)',
+  fontSize: '20px',
+  fontWeight: 600,
+}
+
+/* ================= COMPONENT ================= */
 const ProductItemPage = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
@@ -30,6 +54,7 @@ const ProductItemPage = () => {
   const count = cartItem?.count ?? 1
   const added = Boolean(cartItem)
 
+  /* ================= LOAD PRODUCT ================= */
   useEffect(() => {
     axios.get(`${BASE_URL}/products/${id}`).then((res) => {
       const item = res.data[0]
@@ -50,16 +75,32 @@ const ProductItemPage = () => {
     ? Math.round(100 - (discont_price / price) * 100)
     : null
 
+  /* ================= CART LOGIC ================= */
   const toggleAdd = () => {
     if (added) {
       dispatch(remove(product.id))
     } else {
-      dispatch(add({ id: product.id, count }))
+      dispatch(add({ id: product.id, count: 1 }))
+    }
+  }
+
+  const handleIncrease = () => {
+    if (!added) {
+      dispatch(add({ id: product.id, count: 1 }))
+    } else {
+      dispatch(increase(product.id))
+    }
+  }
+
+  const handleDecrease = () => {
+    if (added) {
+      dispatch(decrease(product.id))
     }
   }
 
   return (
     <Box sx={{ p: '40px', pb: '80px' }}>
+      {/* ================= BREADCRUMBS ================= */}
       <Box sx={{ display: 'flex', gap: '16px', mb: '40px' }}>
         {['Main page', 'Categories', category.title, title].map((text, i) => (
           <Box
@@ -80,9 +121,15 @@ const ProductItemPage = () => {
         ))}
       </Box>
 
+      {/* ================= CONTENT ================= */}
       <Box
-        sx={{ display: 'grid', gridTemplateColumns: '2fr 1.2fr', gap: '32px' }}
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: '2fr 1.2fr',
+          gap: '32px',
+        }}
       >
+        {/* IMAGES */}
         <Box sx={{ display: 'flex', gap: '32px' }}>
           <Box
             sx={{
@@ -113,19 +160,17 @@ const ProductItemPage = () => {
             <Box
               component="img"
               src={`${BASE_URL}${image}`}
-              sx={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-              }}
+              sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
           </Box>
         </Box>
 
+        {/* INFO */}
         <Box>
           <Typography sx={{ fontSize: '40px', fontWeight: 700, mb: '32px' }}>
             {title}
           </Typography>
+
           <Box sx={{ display: 'flex', gap: '16px', mb: '32px' }}>
             <Typography sx={{ fontSize: '64px', fontWeight: 700 }}>
               ${finalPrice}
@@ -162,19 +207,14 @@ const ProductItemPage = () => {
             )}
           </Box>
 
+          {/* COUNTER + BUTTON */}
           <Box sx={{ display: 'flex', gap: '32px', mb: '32px' }}>
             <Box sx={{ display: 'flex' }}>
-              <Button
-                onClick={() => dispatch(decrease(product.id))}
-                sx={counterBtn}
-              >
+              <Button onClick={handleDecrease} sx={counterBtn}>
                 −
               </Button>
               <Box sx={counterValue}>{count}</Box>
-              <Button
-                onClick={() => dispatch(increase(product.id))}
-                sx={counterBtn}
-              >
+              <Button onClick={handleIncrease} sx={counterBtn}>
                 +
               </Button>
             </Box>
@@ -196,6 +236,7 @@ const ProductItemPage = () => {
             </Button>
           </Box>
 
+          {/* DESCRIPTION */}
           <Typography sx={{ fontSize: '20px', fontWeight: 600, mb: '16px' }}>
             Description
           </Typography>
@@ -215,11 +256,7 @@ const ProductItemPage = () => {
 
           <Box
             onClick={() => setExpanded((p) => !p)}
-            sx={{
-              mt: '16px',
-              textDecoration: 'underline',
-              cursor: 'pointer',
-            }}
+            sx={{ mt: '16px', textDecoration: 'underline', cursor: 'pointer' }}
           >
             {expanded ? 'Read less' : 'Read more'}
           </Box>
