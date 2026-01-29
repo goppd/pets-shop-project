@@ -7,11 +7,7 @@ import checkbox_normal from '../../assets/icons/checkbox_normal.svg'
 import checkbox_active from '../../assets/icons/checkbox_active.svg'
 
 const styles = {
-  container: {
-    p: '40px',
-    pb: '80px',
-  },
-
+  container: { p: '40px', pb: '80px' },
   title: {
     fontSize: '64px',
     fontWeight: 700,
@@ -19,7 +15,6 @@ const styles = {
     mb: '40px',
     color: 'rgba(40,40,40,1)',
   },
-
   filters: {
     display: 'flex',
     alignItems: 'center',
@@ -27,20 +22,13 @@ const styles = {
     mb: '40px',
     flexWrap: 'wrap',
   },
-
-  priceFilter: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '16px',
-  },
-
+  priceFilter: { display: 'flex', alignItems: 'center', gap: '16px' },
   priceLabel: {
     fontSize: '20px',
     fontWeight: 600,
     lineHeight: '130%',
     color: 'rgba(40,40,40,1)',
   },
-
   priceInput: {
     width: '112px',
     height: '36px',
@@ -53,7 +41,6 @@ const styles = {
     border: '1px solid rgba(221,221,221,1)',
     outline: 'none',
   },
-
   discountFilter: {
     display: 'flex',
     alignItems: 'center',
@@ -62,25 +49,14 @@ const styles = {
     cursor: 'pointer',
     userSelect: 'none',
   },
-
-  checkboxIcon: {
-    width: 36,
-    height: 36,
-  },
-
-  sortFilter: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '16px',
-  },
-
+  checkboxIcon: { width: 36, height: 36 },
+  sortFilter: { display: 'flex', alignItems: 'center', gap: '16px' },
   sortLabel: {
     fontSize: '20px',
     fontWeight: 600,
     lineHeight: '130%',
     color: 'rgba(40,40,40,1)',
   },
-
   select: {
     height: '36px',
     fontSize: '16px',
@@ -88,55 +64,43 @@ const styles = {
     lineHeight: '126%',
     borderRadius: '6px',
   },
-
   resetBtn: {
     height: '44px',
     px: '16px',
     borderRadius: '6px',
     border: '1px solid rgba(221,221,221,1)',
-    backgroundColor: 'rgba(255, 255, 255, 1)',
+    backgroundColor: '#fff',
     fontSize: '16px',
     fontWeight: 500,
     textTransform: 'none',
-
-    '&:hover': {
-      backgroundColor: 'rgba(40,40,41,0.05)',
-    },
+    '&:hover': { backgroundColor: 'rgba(40,40,41,0.05)' },
   },
-
   grid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(4, 1fr)',
     gap: '32px',
   },
-
   card: {
     borderRadius: '12px',
     border: '1px solid rgba(221,221,221,1)',
-    backgroundColor: 'rgba(255, 255, 255, 1)',
+    backgroundColor: '#fff',
     overflow: 'hidden',
     transition: 'transform 0.2s ease',
     cursor: 'pointer',
-
-    '&:hover': {
-      transform: 'translateY(-4px)',
-    },
+    '&:hover': { transform: 'translateY(-4px)' },
   },
-
   imageWrapper: {
     position: 'relative',
     width: '100%',
     aspectRatio: '316 / 350',
     overflow: 'hidden',
   },
-
   image: {
     width: '100%',
     height: '100%',
     objectFit: 'cover',
     display: 'block',
   },
-
   addBtn: {
     position: 'absolute',
     left: '16px',
@@ -150,31 +114,20 @@ const styles = {
     lineHeight: '130%',
     textTransform: 'none',
     backgroundColor: 'rgba(13,80,255,1)',
-    color: 'rgba(255, 255, 255, 1)',
+    color: '#fff',
     opacity: 0,
     transition: 'opacity 0.2s ease, background-color 0.2s ease',
-
-    '&:hover': {
-      backgroundColor: 'rgba(40,40,40,1)',
-    },
+    '&:hover': { backgroundColor: 'rgba(40,40,40,1)' },
   },
-
   cardHover: {
-    '&:hover .addBtn': {
-      opacity: 1,
-    },
+    '&:hover .addBtn': { opacity: 1 },
   },
-
   addedBtn: {
-    backgroundColor: 'rgba(255, 255, 255, 1)',
+    backgroundColor: '#fff',
     color: 'rgba(40,40,40,1)',
     border: '1px solid rgba(40,40,40,1)',
-
-    '&:hover': {
-      backgroundColor: 'rgba(255, 255, 255, 1)',
-    },
+    '&:hover': { backgroundColor: '#fff' },
   },
-
   name: {
     fontSize: '20px',
     fontWeight: 500,
@@ -184,7 +137,6 @@ const styles = {
     px: '32px',
     pb: '16px',
   },
-
   prices: {
     display: 'flex',
     justifyContent: 'center',
@@ -193,14 +145,12 @@ const styles = {
     px: '32px',
     pb: '16px',
   },
-
   price: {
     fontSize: '40px',
     fontWeight: 600,
     lineHeight: '110%',
     color: 'rgba(40,40,40,1)',
   },
-
   oldPrice: {
     fontSize: '20px',
     fontWeight: 500,
@@ -208,7 +158,6 @@ const styles = {
     color: 'rgba(139,139,139,1)',
     textDecoration: 'line-through',
   },
-
   emptyState: {
     mt: '80px',
     textAlign: 'center',
@@ -224,18 +173,37 @@ const ProductListPage = () => {
 
   const [products, setProducts] = useState([])
   const [category, setCategory] = useState(null)
-  const [addedIds, setAddedIds] = useState([])
   const [onlyDiscounted, setOnlyDiscounted] = useState(false)
   const [priceFrom, setPriceFrom] = useState('')
   const [priceTo, setPriceTo] = useState('')
   const [sortType, setSortType] = useState('default')
+  const [addedIds, setAddedIds] = useState([])
 
   useEffect(() => {
     axios.get(`http://localhost:3333/categories/${id}`).then((res) => {
       setCategory(res.data.category)
       setProducts(res.data.data)
     })
+
+    const cart = JSON.parse(localStorage.getItem('cart')) || []
+    setAddedIds(cart.map((item) => item.id))
   }, [id])
+
+  const toggleAdd = (productId) => {
+    const cart = JSON.parse(localStorage.getItem('cart')) || []
+    const exists = cart.find((item) => item.id === productId)
+
+    let newCart
+
+    if (exists) {
+      newCart = cart.filter((item) => item.id !== productId)
+    } else {
+      newCart = [...cart, { id: productId, count: 1 }]
+    }
+
+    localStorage.setItem('cart', JSON.stringify(newCart))
+    setAddedIds(newCart.map((item) => item.id))
+  }
 
   const resetFilters = () => {
     setOnlyDiscounted(false)
@@ -256,12 +224,10 @@ const ProductListPage = () => {
       result = result.filter(
         (p) => (p.discont_price ?? p.price) <= Number(priceTo),
       )
-
     if (sortType === 'low-high')
       result.sort(
         (a, b) => (a.discont_price ?? a.price) - (b.discont_price ?? b.price),
       )
-
     if (sortType === 'high-low')
       result.sort(
         (a, b) => (b.discont_price ?? b.price) - (a.discont_price ?? a.price),
@@ -351,11 +317,7 @@ const ProductListPage = () => {
                     }}
                     onClick={(e) => {
                       e.stopPropagation()
-                      setAddedIds((prev) =>
-                        prev.includes(product.id)
-                          ? prev.filter((id) => id !== product.id)
-                          : [...prev, product.id],
-                      )
+                      toggleAdd(product.id)
                     }}
                   >
                     {isAdded ? 'Added' : 'Add to cart'}
@@ -368,7 +330,6 @@ const ProductListPage = () => {
                   <Typography sx={styles.price}>
                     ${product.discont_price ?? product.price}
                   </Typography>
-
                   {product.discont_price && (
                     <Typography sx={styles.oldPrice}>
                       ${product.price}

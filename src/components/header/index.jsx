@@ -1,10 +1,17 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { Box, Typography } from '@mui/material'
+
 import logo from '../../assets/icons/logo.svg'
 import basket from '../../assets/icons/basket.empty.svg'
 
 const Header = () => {
+  const navigate = useNavigate()
+
+  const items = useSelector((state) => state.cart.items)
+
+  const cartCount = items.reduce((sum, item) => sum + item.count, 0)
+
   return (
     <Box
       component="header"
@@ -25,6 +32,7 @@ const Header = () => {
           height: '70px',
           cursor: 'pointer',
         }}
+        onClick={() => navigate('/')}
       />
 
       <Box
@@ -48,7 +56,6 @@ const Header = () => {
             sx={{
               fontSize: '20px',
               fontWeight: 500,
-              fontFamily: 'Roboto, sans-serif',
               textDecoration: 'none',
               color: 'rgba(40,40,40,1)',
               transition: 'color 0.2s ease',
@@ -69,15 +76,38 @@ const Header = () => {
       </Box>
 
       <Box
-        component="img"
-        src={basket}
-        alt="basket"
-        sx={{
-          width: '48px',
-          height: '48px',
-          cursor: 'pointer',
-        }}
-      />
+        sx={{ position: 'relative', cursor: 'pointer' }}
+        onClick={() => navigate('/cart')}
+      >
+        <Box
+          component="img"
+          src={basket}
+          alt="basket"
+          sx={{ width: '48px', height: '48px' }}
+        />
+
+        {cartCount > 0 && (
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '-6px',
+              right: '-6px',
+              width: '22px',
+              height: '22px',
+              borderRadius: '50%',
+              backgroundColor: 'rgba(13, 80, 255, 1)', // ✅ СИНИЙ
+              color: '#fff',
+              fontSize: '12px',
+              fontWeight: 600,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            {cartCount}
+          </Box>
+        )}
+      </Box>
     </Box>
   )
 }

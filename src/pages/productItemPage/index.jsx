@@ -1,7 +1,10 @@
-import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Box, Typography, Button } from '@mui/material'
+
+import { useDispatch, useSelector } from 'react-redux'
+import { add, remove, increase, decrease } from '../../redux/slices/cartSlice'
 
 import Image1 from '../../assets/images/image1.svg'
 import Image2 from '../../assets/images/image2.svg'
@@ -11,12 +14,21 @@ const BASE_URL = 'http://localhost:3333'
 
 const ProductItemPage = () => {
   const { id } = useParams()
-  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   const [product, setProduct] = useState(null)
   const [category, setCategory] = useState(null)
-  const [count, setCount] = useState(1)
-  const [added, setAdded] = useState(false)
   const [expanded, setExpanded] = useState(false)
+
+  const cartItems = useSelector((state) => state.cart.items)
+
+  const cartItem = useMemo(
+    () => cartItems.find((item) => item.id === Number(id)),
+    [cartItems, id],
+  )
+
+  const count = cartItem?.count ?? 1
+  const added = Boolean(cartItem)
 
   useEffect(() => {
     axios.get(`${BASE_URL}/products/${id}`).then((res) => {
@@ -33,9 +45,18 @@ const ProductItemPage = () => {
 
   const { title, price, discont_price, description, image } = product
   const finalPrice = discont_price ?? price
+
   const discountPercent = discont_price
     ? Math.round(100 - (discont_price / price) * 100)
     : null
+
+  const toggleAdd = () => {
+    if (added) {
+      dispatch(remove(product.id))
+    } else {
+      dispatch(add({ id: product.id, count }))
+    }
+  }
 
   return (
     <Box sx={{ p: '40px', pb: '80px' }}>
@@ -48,12 +69,10 @@ const ProductItemPage = () => {
               py: '8px',
               fontSize: '14px',
               fontWeight: 500,
-              lineHeight: '130%',
               border: '1px solid',
               borderColor: i === 3 ? 'rgba(40,40,40,1)' : 'rgba(221,221,221,1)',
               borderRadius: '6px',
               color: i === 3 ? 'rgba(40,40,40,1)' : 'rgba(139,139,139,1)',
-              whiteSpace: 'nowrap',
             }}
           >
             {text}
@@ -62,14 +81,9 @@ const ProductItemPage = () => {
       </Box>
 
       <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: '2fr 1.2fr',
-          gap: '32px',
-          alignItems: 'stretch',
-        }}
+        sx={{ display: 'grid', gridTemplateColumns: '2fr 1.2fr', gap: '32px' }}
       >
-        <Box sx={{ display: 'flex', gap: '32px', height: '100%' }}>
+        <Box sx={{ display: 'flex', gap: '32px' }}>
           <Box
             sx={{
               width: '32%',
@@ -95,7 +109,7 @@ const ProductItemPage = () => {
             ))}
           </Box>
 
-          <Box sx={{ flex: 1, display: 'flex' }}>
+          <Box sx={{ flex: 1 }}>
             <Box
               component="img"
               src={`${BASE_URL}${image}`}
@@ -108,56 +122,39 @@ const ProductItemPage = () => {
           </Box>
         </Box>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography
-            sx={{
-              fontSize: '40px',
-              fontWeight: 700,
-              lineHeight: '110%',
-              mb: '32px',
-              color: 'rgba(40,40,40,1)',
-            }}
-          >
+        <Box>
+          <Typography sx={{ fontSize: '40px', fontWeight: 700, mb: '32px' }}>
             {title}
           </Typography>
-
           <Box sx={{ display: 'flex', gap: '16px', mb: '32px' }}>
-            <Box sx={{ display: 'flex', alignItems: 'flex-end', gap: '16px' }}>
-              <Typography sx={{ fontSize: '64px', fontWeight: 700 }}>
-                ${finalPrice}
-              </Typography>
-              {discont_price && (
-                <Typography
-                  sx={{
-                    fontSize: '40px',
-                    textDecoration: 'line-through',
-                    color: 'rgba(139,139,139,1)',
-                  }}
-                >
-                  ${price}
-                </Typography>
-              )}
-            </Box>
+            <Typography sx={{ fontSize: '64px', fontWeight: 700 }}>
+              ${finalPrice}
+            </Typography>
 
             {discont_price && (
+              <Typography
+                sx={{
+                  fontSize: '40px',
+                  textDecoration: 'line-through',
+                  color: '#8b8b8b',
+                }}
+              >
+                ${price}
+              </Typography>
+            )}
+
+            {discountPercent && (
               <Box
                 sx={{
-                  height: '32px', 
-                  minWidth: '56px', 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center', 
-
-                  fontSize: '20px',
-                  fontWeight: 600,
-                  lineHeight: '130%',
-
-                  borderRadius: '6px',
+                  height: '32px',
+                  minWidth: '56px',
                   backgroundColor: 'rgba(13,80,255,1)',
                   color: '#fff',
-
-                  transform: 'translateY(-12px)',
-                  flexShrink: 0, 
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '6px',
+                  fontWeight: 600,
                 }}
               >
                 -{discountPercent}%
@@ -168,19 +165,22 @@ const ProductItemPage = () => {
           <Box sx={{ display: 'flex', gap: '32px', mb: '32px' }}>
             <Box sx={{ display: 'flex' }}>
               <Button
-                onClick={() => setCount((p) => Math.max(1, p - 1))}
+                onClick={() => dispatch(decrease(product.id))}
                 sx={counterBtn}
               >
                 −
               </Button>
               <Box sx={counterValue}>{count}</Box>
-              <Button onClick={() => setCount((p) => p + 1)} sx={counterBtn}>
+              <Button
+                onClick={() => dispatch(increase(product.id))}
+                sx={counterBtn}
+              >
                 +
               </Button>
             </Box>
 
             <Button
-              onClick={() => setAdded((p) => !p)}
+              onClick={toggleAdd}
               sx={{
                 flex: 1,
                 height: '58px',
@@ -188,72 +188,45 @@ const ProductItemPage = () => {
                 fontWeight: 600,
                 borderRadius: '6px',
                 backgroundColor: added ? '#fff' : 'rgba(13,80,255,1)',
-                color: added ? 'rgba(40,40,40,1)' : '#fff',
-                border: added ? '1px solid rgba(40,40,40,1)' : 'none',
-                '&:hover': {
-                  backgroundColor: added ? '#fff' : 'rgba(40,40,40,1)',
-                },
+                color: added ? '#000' : '#fff',
+                border: added ? '1px solid #000' : 'none',
               }}
             >
               {added ? 'Added' : 'Add to cart'}
             </Button>
           </Box>
 
-          <Box>
-            <Typography sx={{ fontSize: '20px', fontWeight: 600, mb: '16px' }}>
-              Description
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: '16px',
-                lineHeight: '130%',
-                color: 'rgba(40,40,40,1)',
-                display: expanded ? 'block' : '-webkit-box',
-                WebkitLineClamp: expanded ? 'none' : 3,
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-              }}
-            >
-              {description}
-            </Typography>
-            <Box
-              onClick={() => setExpanded((p) => !p)}
-              sx={{
-                mt: '16px',
-                fontSize: '16px',
-                textDecoration: 'underline',
-                cursor: 'pointer',
-              }}
-            >
-              {expanded ? 'Read less' : 'Read more'}
-            </Box>
+          <Typography sx={{ fontSize: '20px', fontWeight: 600, mb: '16px' }}>
+            Description
+          </Typography>
+
+          <Typography
+            sx={{
+              fontSize: '16px',
+              lineHeight: '130%',
+              display: expanded ? 'block' : '-webkit-box',
+              WebkitLineClamp: expanded ? 'none' : 3,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+            }}
+          >
+            {description}
+          </Typography>
+
+          <Box
+            onClick={() => setExpanded((p) => !p)}
+            sx={{
+              mt: '16px',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+            }}
+          >
+            {expanded ? 'Read less' : 'Read more'}
           </Box>
         </Box>
       </Box>
     </Box>
   )
-}
-
-const counterBtn = {
-  width: '58px',
-  height: '58px',
-  minWidth: '58px',
-  border: '1px solid rgba(221,221,221,1)',
-  borderRadius: 0,
-  fontSize: '20px',
-  color: 'rgba(40,40,40,1)',
-}
-
-const counterValue = {
-  width: '58px',
-  height: '58px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderTop: '1px solid rgba(221,221,221,1)',
-  borderBottom: '1px solid rgba(221,221,221,1)',
-  fontSize: '20px',
-  fontWeight: 600,
 }
 
 export default ProductItemPage

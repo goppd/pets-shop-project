@@ -2,7 +2,7 @@ import './App.css'
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 
-import Header from './components/Header'
+import Header from './components/header'
 import Main from './components/main'
 import Categories from './components/categories'
 import Discount from './components/discount'
@@ -14,6 +14,7 @@ import ProductListPage from './pages/productListPage'
 import ProductItemPage from './pages/productItemPage'
 import AllProductsPage from './pages/allProductsPage'
 import DiscountedItemsPage from './pages/discountedItemsPage'
+import CartPage from './pages/cartPage'
 
 function App() {
   return (
@@ -26,7 +27,6 @@ function App() {
           element={
             <>
               <Main />
-              <Categories />
               <Discount />
               <Sale />
             </>
@@ -38,7 +38,7 @@ function App() {
 
         <Route path="/products" element={<AllProductsPage />} />
         <Route path="/sales" element={<DiscountedItemsPage />} />
-
+        <Route path="/cart" element={<CartPage />} />
         <Route path="/products/:id" element={<ProductItemPage />} />
       </Routes>
 
