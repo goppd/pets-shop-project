@@ -12,7 +12,7 @@ const styles = {
     gap: '32px',
   },
   card: {
-    border: '1px solid #ddd',
+    border: '1px solid rgba(221, 221, 221, 1)',
     borderRadius: '12px',
     overflow: 'hidden',
     cursor: 'pointer',
@@ -30,15 +30,14 @@ const styles = {
     right: '16px',
     bottom: '16px',
     height: '48px',
-    backgroundColor: '#0d50ff',
-    color: '#fff',
+    backgroundColor: 'rgba(13, 80, 255, 1)',
+    color: 'rgba(255, 255, 255, 1)',
     opacity: 0,
-    '&:hover': { backgroundColor: '#282828' },
   },
   addedBtn: {
-    backgroundColor: '#fff',
-    color: '#282828',
-    border: '1px solid #282828',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+    color: 'rgba(40, 40, 40, 1)',
+    border: '1px solid rgba(40, 40, 40, 1)',
     opacity: 1,
   },
 }
@@ -95,7 +94,13 @@ const AllProductsPage = () => {
                   className="addBtn"
                   sx={{
                     ...styles.addBtn,
-                    ...(isAdded ? styles.addedBtn : {}),
+                    ...(isAdded
+                      ? styles.addedBtn
+                      : {
+                          '&:hover': {
+                            backgroundColor: '#282828',
+                          },
+                        }),
                   }}
                   onClick={(e) => {
                     e.stopPropagation()

@@ -72,7 +72,7 @@ const Categories = () => {
       <Box
         sx={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)', // ✅ 4 в ряд
+          gridTemplateColumns: 'repeat(4, 1fr)',
           gap: '32px',
         }}
       >

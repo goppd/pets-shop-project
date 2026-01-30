@@ -108,7 +108,7 @@ const Sale = () => {
                   top: '16px',
                   right: '16px',
                   backgroundColor: 'rgba(13,80,255,1)',
-                  color: '#fff',
+                  color: 'rgba(255,255,255,1)',
                   fontSize: '20px',
                   fontWeight: 600,
                   lineHeight: '130%',

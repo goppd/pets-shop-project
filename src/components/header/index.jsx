@@ -95,8 +95,8 @@ const Header = () => {
               width: '22px',
               height: '22px',
               borderRadius: '50%',
-              backgroundColor: 'rgba(13, 80, 255, 1)', // ✅ СИНИЙ
-              color: '#fff',
+              backgroundColor: 'rgba(13, 80, 255, 1)',
+              color: 'rgba(255, 255, 255, 1)',
               fontSize: '12px',
               fontWeight: 600,
               display: 'flex',

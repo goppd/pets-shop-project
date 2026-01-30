@@ -173,7 +173,7 @@ const ProductItemPage = () => {
                 sx={{
                   fontSize: '40px',
                   textDecoration: 'line-through',
-                  color: '#8b8b8b',
+                  color: 'rgba(139, 139, 139, 1)',
                 }}
               >
                 ${price}
@@ -186,7 +186,7 @@ const ProductItemPage = () => {
                   height: '32px',
                   minWidth: '56px',
                   backgroundColor: 'rgba(13,80,255,1)',
-                  color: '#fff',
+                  color: 'rgba(255,255,255,1)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -218,9 +218,11 @@ const ProductItemPage = () => {
                 fontSize: '20px',
                 fontWeight: 600,
                 borderRadius: '6px',
-                backgroundColor: added ? '#fff' : 'rgba(13,80,255,1)',
-                color: added ? '#000' : '#fff',
-                border: added ? '1px solid #000' : 'none',
+                backgroundColor: added
+                  ? 'rgba(255, 255, 255, 1)'
+                  : 'rgba(13,80,255,1)',
+                color: added ? 'rgba(40, 40, 40, 1)' : 'rgba(255, 255, 255, 1)',
+                border: added ? '1px solid rgba(40, 40, 40, 1)' : 'none',
               }}
             >
               {added ? 'Added' : 'Add to cart'}

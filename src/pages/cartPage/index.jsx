@@ -39,7 +39,7 @@ const CartPage = () => {
     dispatch(clear())
   }
 
- if (cartItems.length === 0 && !showSuccess) {
+  if (cartItems.length === 0 && !showSuccess) {
     return (
       <Box sx={{ p: '40px' }}>
         <Typography variant="h3" sx={{ mb: '16px' }}>
@@ -158,7 +158,13 @@ const CartPage = () => {
             })}
           </Box>
 
-          <Box sx={{ p: 3, bgcolor: '#f5f5f5', borderRadius: '12px' }}>
+          <Box
+            sx={{
+              p: 3,
+              bgcolor: 'rgba(245, 245, 245, 1)',
+              borderRadius: '12px',
+            }}
+          >
             <Typography variant="h5" mb={1}>
               Order details
             </Typography>
@@ -220,8 +226,8 @@ const CartPage = () => {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            bgcolor: '#0d50ff',
-            color: '#fff',
+            bgcolor: 'rgba(13, 80, 255, 1)',
+            color: 'rgba(255,255,255,1)',
             p: 4,
             width: 420,
             borderRadius: '12px',
@@ -236,7 +242,7 @@ const CartPage = () => {
               minWidth: 'auto',
               fontSize: '20px',
               fontWeight: 600,
-              color: '#fff',
+              color: 'rgba(255,255,255,1)',
             }}
           >
             ×

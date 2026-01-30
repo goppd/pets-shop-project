@@ -29,7 +29,7 @@ const NotFoundPage = () => {
           sx={{
             fontSize: '148px',
             fontWeight: 700,
-            color: '#0d50ff',
+            color: 'rgba(13, 80, 255, 1)',
             lineHeight: '110%',
           }}
         >
@@ -51,7 +51,7 @@ const NotFoundPage = () => {
           sx={{
             fontSize: '148px',
             fontWeight: 700,
-            color: '#0d50ff',
+            color: 'rgba(13, 80, 255, 1)',
             lineHeight: '110%',
           }}
         >
@@ -63,7 +63,7 @@ const NotFoundPage = () => {
         sx={{
           fontSize: '32px',
           fontWeight: 600,
-          color: 'rgba(40,40,40,1)',
+          color: 'rgba(40, 40, 40, 1)',
         }}
       >
         Page Not Found
@@ -91,7 +91,7 @@ const NotFoundPage = () => {
           fontSize: '16px',
           fontWeight: 500,
           textTransform: 'none',
-          backgroundColor: '#0d50ff',
+          backgroundColor: 'rgba(13, 80, 255, 1)',
 
           '&:hover': {
             backgroundColor: 'rgba(40,40,40,1)',

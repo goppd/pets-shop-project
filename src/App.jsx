@@ -16,11 +16,14 @@ import AllProductsPage from './pages/allProductsPage'
 import DiscountedItemsPage from './pages/discountedItemsPage'
 import CartPage from './pages/cartPage'
 import NotFoundPage from './pages/notFoundPage'
+import ScrollToTop from './components/scrollToTop'
 
 function App() {
   return (
     <div className="app">
       <Header />
+
+      <ScrollToTop />
 
       <Routes>
         <Route

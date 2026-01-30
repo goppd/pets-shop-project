@@ -22,7 +22,7 @@ const styles = {
     fontWeight: 500,
     borderRadius: '6px',
     textTransform: 'none',
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
     border: '1px solid rgba(221, 221, 221, 1)',
     color: 'rgba(139, 139, 139, 1)',
     boxShadow: 'none',
@@ -59,7 +59,7 @@ const styles = {
     overflow: 'hidden',
     cursor: 'pointer',
     transition: 'transform 0.2s ease',
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
 
     '&:hover': {
       transform: 'translateY(-4px)',

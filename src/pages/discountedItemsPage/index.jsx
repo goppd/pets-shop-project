@@ -21,12 +21,10 @@ const styles = {
   },
 
   card: {
-    border: '1px solid #ddd',
+    border: '1px solid rgba(221, 221, 221, 1)',
     borderRadius: '12px',
     overflow: 'hidden',
     cursor: 'pointer',
-    transition: 'transform 0.2s ease',
-    '&:hover': { transform: 'translateY(-4px)' },
     '&:hover .addBtn': { opacity: 1 },
   },
 
@@ -45,8 +43,8 @@ const styles = {
     position: 'absolute',
     top: '16px',
     right: '16px',
-    backgroundColor: '#0d50ff',
-    color: '#fff',
+    backgroundColor: 'rgba(13, 80, 255, 1)',
+    color: 'rgba(255, 255, 255, 1)',
     padding: '4px 8px',
     borderRadius: '6px',
     fontWeight: 600,
@@ -59,27 +57,16 @@ const styles = {
     right: '16px',
     bottom: '16px',
     height: '48px',
-    borderRadius: '6px',
-    backgroundColor: '#0d50ff',
-    color: '#fff',
-    fontSize: '18px',
-    fontWeight: 600,
-    textTransform: 'none',
+    backgroundColor: 'rgba(13, 80, 255, 1)',
+    color: 'rgba(255, 255, 255, 1)',
     opacity: 0,
-    transition: 'opacity 0.2s ease, background-color 0.2s ease',
-    '&:hover': {
-      backgroundColor: '#282828',
-    },
   },
 
   addedBtn: {
-    backgroundColor: '#fff',
-    color: '#000',
-    border: '1px solid #000',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+    color: 'rgba(40, 40, 40, 1)',
+    border: '1px solid rgba(40, 40, 40, 1)',
     opacity: 1,
-    '&:hover': {
-      backgroundColor: '#fff',
-    },
   },
 
   name: {
@@ -105,7 +92,7 @@ const styles = {
 
   oldPrice: {
     fontSize: '18px',
-    color: '#8b8b8b',
+    color: 'rgba(139, 139, 139, 1)',
     textDecoration: 'line-through',
     lineHeight: '110%',
   },
@@ -172,7 +159,13 @@ const DiscountedItemsPage = () => {
                   className="addBtn"
                   sx={{
                     ...styles.addBtn,
-                    ...(isAdded ? styles.addedBtn : {}),
+                    ...(isAdded
+                      ? styles.addedBtn
+                      : {
+                          '&:hover': {
+                            backgroundColor: '#282828',
+                          },
+                        }),
                   }}
                   onClick={(e) => {
                     e.stopPropagation()
