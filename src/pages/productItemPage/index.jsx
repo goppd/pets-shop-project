@@ -12,7 +12,6 @@ import Image3 from '../../assets/images/image3.svg'
 
 const BASE_URL = 'http://localhost:3333'
 
-/* ================= STYLES ================= */
 const counterBtn = {
   width: '58px',
   height: '58px',
@@ -35,7 +34,6 @@ const counterValue = {
   fontWeight: 600,
 }
 
-/* ================= COMPONENT ================= */
 const ProductItemPage = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
@@ -54,7 +52,6 @@ const ProductItemPage = () => {
   const count = cartItem?.count ?? 1
   const added = Boolean(cartItem)
 
-  /* ================= LOAD PRODUCT ================= */
   useEffect(() => {
     axios.get(`${BASE_URL}/products/${id}`).then((res) => {
       const item = res.data[0]
@@ -75,7 +72,6 @@ const ProductItemPage = () => {
     ? Math.round(100 - (discont_price / price) * 100)
     : null
 
-  /* ================= CART LOGIC ================= */
   const toggleAdd = () => {
     if (added) {
       dispatch(remove(product.id))
@@ -100,7 +96,6 @@ const ProductItemPage = () => {
 
   return (
     <Box sx={{ p: '40px', pb: '80px' }}>
-      {/* ================= BREADCRUMBS ================= */}
       <Box sx={{ display: 'flex', gap: '16px', mb: '40px' }}>
         {['Main page', 'Categories', category.title, title].map((text, i) => (
           <Box
@@ -121,7 +116,6 @@ const ProductItemPage = () => {
         ))}
       </Box>
 
-      {/* ================= CONTENT ================= */}
       <Box
         sx={{
           display: 'grid',
@@ -129,7 +123,6 @@ const ProductItemPage = () => {
           gap: '32px',
         }}
       >
-        {/* IMAGES */}
         <Box sx={{ display: 'flex', gap: '32px' }}>
           <Box
             sx={{
@@ -165,7 +158,6 @@ const ProductItemPage = () => {
           </Box>
         </Box>
 
-        {/* INFO */}
         <Box>
           <Typography sx={{ fontSize: '40px', fontWeight: 700, mb: '32px' }}>
             {title}
@@ -207,7 +199,6 @@ const ProductItemPage = () => {
             )}
           </Box>
 
-          {/* COUNTER + BUTTON */}
           <Box sx={{ display: 'flex', gap: '32px', mb: '32px' }}>
             <Box sx={{ display: 'flex' }}>
               <Button onClick={handleDecrease} sx={counterBtn}>
@@ -236,7 +227,6 @@ const ProductItemPage = () => {
             </Button>
           </Box>
 
-          {/* DESCRIPTION */}
           <Typography sx={{ fontSize: '20px', fontWeight: 600, mb: '16px' }}>
             Description
           </Typography>

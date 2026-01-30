@@ -18,7 +18,6 @@ const NotFoundPage = () => {
         px: '16px',
       }}
     >
-      {/* 404 + DOG */}
       <Box
         sx={{
           display: 'flex',
@@ -60,7 +59,6 @@ const NotFoundPage = () => {
         </Typography>
       </Box>
 
-      {/* TEXT */}
       <Typography
         sx={{
           fontSize: '32px',
@@ -84,7 +82,6 @@ const NotFoundPage = () => {
         Please go back to the homepage.
       </Typography>
 
-      {/* BUTTON */}
       <Button
         variant="contained"
         sx={{
